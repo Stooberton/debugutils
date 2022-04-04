@@ -18,7 +18,7 @@ function eye()
 end
 
 function this()
-	return Eye().Entity
+	return eye().Entity
 end
 
 if SERVER then
