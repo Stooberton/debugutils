@@ -9,15 +9,21 @@ function Print(...)
 	end
 end
 
-if SERVER then
-	function Eye()
-		local _, Ply = next(player.GetAll())
-
-		return Ply:GetEyeTrace()
+function eye()
+	if SERVER then
+		return player.GetAll()[1]:GetEyeTrace()
+	else
+		return LocalPlayer():GetEyeTrace()
 	end
+end
 
-	function ShowConstraints()
-		local Ent = Eye().Entity
+function this()
+	return Eye().Entity
+end
+
+if SERVER then
+	function showConstraints()
+		local Ent = this()
 
 		if IsValid(Ent) then
 			for _, V in pairs(Ent.Constraints) do
@@ -35,7 +41,7 @@ if SERVER then
 
 			if IsValid(Ent:GetParent()) then
 				local Parent = Ent:GetParent()
-				
+
 				local L = Ent:GetPos()
 				local R = Parent:GetPos()
 
@@ -43,9 +49,5 @@ if SERVER then
 				debugoverlay.Text(L, "Parented", 10, false)
 			end
 		end
-	end
-else
-	function Eye()
-		return LocalPlayer():GetEyeTrace()
 	end
 end
